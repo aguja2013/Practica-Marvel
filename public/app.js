@@ -7,6 +7,9 @@ var key = 'a548aee0bde874ea460773884934a865';
 var api = new MarvelApi(key);
 
 api.findSeries('avengers').then(function (serie) {
+	var serieImage = 'url(' + serie.thumbnail.path + '.' + serie.thumbnail.extension + ')';
+	$('.Layout').css('background-image', serieImage);
+	debugger;
 	var characters = serie.characters.items;
 	var promises = [];
 	var _iteratorNormalCompletion = true;
