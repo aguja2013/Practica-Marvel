@@ -1,22 +1,44 @@
 'use strict';
 
 var $ = window.jQuery;
+var MarvelApi = window.MarvelApi;
 
-var key = 'apikey=a548aee0bde874ea460773884934a865';
-var url = 'http://gateway.marvel.com/v1/public/series?title=avengers&apikey=a548aee0bde874ea460773884934a865';
+var key = 'a548aee0bde874ea460773884934a865';
+var api = new MarvelApi(key);
 
-Promise.resolve($.get(url)).then(function (results) {
-	var characters = results.data.results[0].characters.items;
+api.findSeries('avengers').then(function (serie) {
+	var characters = serie.characters.items;
 	var promises = [];
-	for (var i in characters) {
-		var character = characters[i];
-		var characterUrl = '' + character.resourceURI + '?' + key;
-		promises.push(Promise.resolve($.get(characterUrl)));
+	var _iteratorNormalCompletion = true;
+	var _didIteratorError = false;
+	var _iteratorError = undefined;
+
+	try {
+		for (var _iterator = characters[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+			var character = _step.value;
+
+			var promise = api.getResourceURI(character.resourceURI);
+			promises.push(promise);
+		}
+	} catch (err) {
+		_didIteratorError = true;
+		_iteratorError = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion && _iterator['return']) {
+				_iterator['return']();
+			}
+		} finally {
+			if (_didIteratorError) {
+				throw _iteratorError;
+			}
+		}
 	}
+
 	return Promise.all(promises);
 }).then(function (characters) {
 	debugger;
+	console.log(characters);
 })['catch'](function (err) {
-	debugger;
 	console.error(err);
 });
