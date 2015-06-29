@@ -38,10 +38,16 @@ api.findSeries('avengers').then(function (serie) {
 	}
 
 	return Promise.all(promises);
-}).then(function (characters) {
+})
+
+//filtro  !!null -> false
+.then(function (characters) {
 	return characters.filter(function (character) {
-		return !!character.thumbnail && !!character.description;
-	});
+		return !!character.thumbnail;
+	})
+	// return !!character.thumbnail && !!character.description
+
+	;
 }).then(function (characters) {
 	$('.Card').each(function (i, item) {
 		var character = characters[i];
@@ -54,7 +60,6 @@ api.findSeries('avengers').then(function (serie) {
 		$name.text(character.name);
 		$description.text(character.description);
 	});
-	debugger;
 })['catch'](function (err) {
 	console.error(err);
 });
