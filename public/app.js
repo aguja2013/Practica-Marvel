@@ -49,17 +49,17 @@ api.findSeries('avengers').then(function (serie) {
 
 	;
 }).then(function (characters) {
-	$('.Card').each(function (i, item) {
-		var character = characters[i];
-		var $this = $(item);
-		var $image = $this.find('.Card-image');
-		var $description = $this.find('.Card-description');
-		var $name = $this.find('.Card-name');
 
-		$image.attr('src', '' + character.thumbnail.path + '.' + character.thumbnail.extension);
-		$name.text(character.name);
-		$description.text(character.description);
-	});
+	for (var i = 0; i < 5; i++) {
+		var character = characters[i];
+		var template = renderCharacter(character);
+		var $card = $(template); //creo los elementos
+		$('.Battle-player').append($card);
+	}
 })['catch'](function (err) {
 	console.error(err);
 });
+
+function renderCharacter(character) {
+	return '\n\t<div class="Card">\t\t\n\t\t<h2 class="Card-name">' + character.name + '</h2><img src="' + character.thumbnail.path + '.' + character.thumbnail.extension + '" alt="wolverine" class="Card-image"/>\n\t\t<div class="Card-description">' + character.description + '</div>\n\t\t<div class="Card-attack">500puntos de ataque</div>\n\t</div> ';
+}
