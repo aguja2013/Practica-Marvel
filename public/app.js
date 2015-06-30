@@ -46,10 +46,10 @@ api.findSeries('avengers').then(function (serie) {
 		return !!character.thumbnail;
 	})
 	// return !!character.thumbnail && !!character.description
-
+	// quitamos con filter los personajes que no tienen thumbnail
 	;
 }).then(function (characters) {
-
+	characters = shuffle(characters);
 	for (var i = 0; i < 5; i++) {
 		var character = characters[i];
 		var template = renderCharacter(character);
@@ -61,5 +61,16 @@ api.findSeries('avengers').then(function (serie) {
 });
 
 function renderCharacter(character) {
-	return '\n\t<div class="Card">\t\t\n\t\t<h2 class="Card-name">' + character.name + '</h2><img src="' + character.thumbnail.path + '.' + character.thumbnail.extension + '" alt="wolverine" class="Card-image"/>\n\t\t<div class="Card-description">' + character.description + '</div>\n\t\t<div class="Card-attack">500puntos de ataque</div>\n\t</div> ';
+	//generamos un número aleatorio entre 500 y 1000
+	var attackPoint = Math.ceil(Math.random() * 500) + 500;
+	return '\n\t<div class="Card">\t\t\n\t\t<h2 class="Card-name">' + character.name + '</h2><img src="' + character.thumbnail.path + '.' + character.thumbnail.extension + '" alt="wolverine" class="Card-image"/>\n\t\t<div class="Card-description">' + character.description + '</div>\n\t\t<div class="Card-attack">' + attackPoint + ' puntos de ataque</div>\n\t</div> ';
+}
+function shuffle(arr) {
+	for (var i = 0; i < arr.length; i++) {
+		var tmp = arr[i];
+		var index = Math.floor(Math.random() * arr.length - 1);
+		arr[i] = arr[index];
+		arr[index] = tmp;
+	}
+	return arr;
 }
