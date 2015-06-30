@@ -52,6 +52,28 @@ var MarvelApi = (function () {
         return Promise.resolve(datos);
       });
     }
+  }, {
+    key: "searchCharacter",
+    value: function searchCharacter(name) {
+      // 'http://gateway.marvel.com/v1/public/'
+      // /characters?name=man&apikey=a548aee0bde874ea460773884934a865
+      var url = "" + this.baseUrl + "/characters?name=" + name + "&apikey=" + this.key;
+      //otra forma de hacer promesas:
+      return new Promise(function (done) {
+        $.get(url).done(function (data) {
+          done(data);
+        });
+      })
+      //encapsulamos todo lo que recibimos en una promesa
+      .then(function (res) {
+        // falsy -> 0, '', null, undefined, NaN
+        // !0, !'', !null, !undefined, !NaN -> true
+        if (!res.data.total) {
+          return Promise.reject("no se encontro el personaje");
+        }
+        return res.data.results[0];
+      });
+    }
   }]);
 
   return MarvelApi;
