@@ -55,6 +55,11 @@ api.findSeries('avengers').then(function (serie) {
 		var template = renderCharacter(character);
 		var $card = $(template); //creo los elementos
 		$('.Battle-player').append($card);
+		$card.on('click', function (event) {
+			var $this = $(this);
+			var attack = $this.find('.Card-attack');
+			console.log(attack.data('attack'));
+		});
 	}
 })['catch'](function (err) {
 	console.error(err);
@@ -63,7 +68,7 @@ api.findSeries('avengers').then(function (serie) {
 function renderCharacter(character) {
 	//generamos un número aleatorio entre 500 y 1000
 	var attackPoint = Math.ceil(Math.random() * 500) + 500;
-	return '\n\t<div class="Card">\t\t\n\t\t<h2 class="Card-name">' + character.name + '</h2><img src="' + character.thumbnail.path + '.' + character.thumbnail.extension + '" alt="wolverine" class="Card-image"/>\n\t\t<div class="Card-description">' + character.description + '</div>\n\t\t<div class="Card-attack">' + attackPoint + ' puntos de ataque</div>\n\t</div> ';
+	return '\n\t<div class="Card">\t\t\n\t\t<h2 class="Card-name">' + character.name + '</h2><img src="' + character.thumbnail.path + '.' + character.thumbnail.extension + '" alt="wolverine" class="Card-image"/>\n\t\t<div class="Card-description">' + character.description + '</div>\n\t\t<div class="Card-attack" data-attack="' + attackPoint + '">' + attackPoint + ' puntos de ataque</div>\n\t</div> ';
 }
 function shuffle(arr) {
 	for (var i = 0; i < arr.length; i++) {
