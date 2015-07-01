@@ -12,30 +12,35 @@ var signinTemplate = ' <label>Ingresa tu nombre</label>\n    <input type="text" 
 // 	console.log('Estoy navegando al home')
 // })
 // El código anterior se puede mejorar:
-page('/', home);
+page('/', restrict, home);
 page('/signin', signin);
 //todo listo, ahora a trabajar, page!
 page();
 
+function restrict(ctx, next) {
+  console.log('Restricting!');
+  console.log('Context :' + JSON.stringify(ctx));
+  console.log('window.user :' + window.user);
+  if (!window.user) return page('/signin');
+
+  next();
+}
+
 function home() {
   console.log('Estoy navegando al home');
-
-  $('.app-container').html(homeTemplate);
-
-  window.location = '/';
+  $('.app-container').html($(homeTemplate));
 }
 
 function signin() {
-  console.log('Estoy navegando al signing');
   //inyecto el html de signin en el app-container
   $('.app-container').html(signinTemplate);
-
   $('.Signin-button').on('click', function (event) {
     event.preventDefault();
     // obtengo el contenido del input
     var username = $('.Signin-name-input')[0].value;
     if (!username) return alert('ingrese un nombre válido');
     //window.location = '/' //ordeno que vaya al home(ojo! vuelve al servidor)
+    window.user = { username: username };
     page('/');
   });
 }
