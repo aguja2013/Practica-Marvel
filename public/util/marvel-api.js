@@ -79,4 +79,6 @@ var MarvelApi = (function () {
   return MarvelApi;
 })();
 
-window.MarvelApi = MarvelApi;
+window.MarvelApi = MarvelApi
+//asigno MarvelApi como variable global(mala práctica!!)
+;
