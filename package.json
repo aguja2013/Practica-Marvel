@@ -1,7 +1,10 @@
 {
   "dependencies": {
     "page": "1.6.3",
-    "jquery": "2.1.4",
+    "jquery": "2.1.4"
+    
+},
+  "devDependencies": {
     "browserify": "10.2.4",
     "babelify": "6.1.2",
     "jadeify": "4.3.0",
