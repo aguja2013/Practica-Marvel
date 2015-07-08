@@ -4,26 +4,14 @@ var http = require('http').Server(app)
 
 var port = 8080
 
-// este middleware se ejecuta si se llama explícitamente
-// en la definición de la ruta
-function middleHandler(req, res, next) {
-	console.log('soy un middleware que anda por ahí')
-}
 
-// middleware que se va a ejecutar primero y siempre
-app.use(function(req, res, next){
-	console.log('soy el 1er middleware')
-	next()
+app.use('/public', express.static(__dirname + '/public'))//express.static es un middleware de express(dice: si te piden un archivo estaático, devolvelo!)
+app.get('/', function (req, res) {
+	res.sendFile(__dirname + '/index.html')
 })
 
-app.use(function(req, res, next){
-	console.log('soy el 2do middleware')
-	next()
-})
-
-app.get('/', middleHandler, function (req, res) {
-	// res.sendFile(__dirname + '/index.html')
-	console.log('peticion al home')
+app.get('*', function(req, res) {
+	//redirijo 404
 })
 
 http.listen(port, function(err){
